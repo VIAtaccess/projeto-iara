@@ -1,5 +1,5 @@
 
-import {processarNovaMensagem, obterHistoricoUsuario} from '../services/chatService.js'; 
+import {processarNovaMensagem, buscarHistoricoUsuario} from '../services/chatService.js'; 
 
 export const enviarMensagemController = async (req, res) => {
     try {
@@ -25,7 +25,7 @@ export const enviarMensagemController = async (req, res) => {
 export const buscarHistoricoController = async (req, res) => {
     try {
         const idUsuario = req.userId;
-        const historico = await obterHistoricoUsuario(idUsuario);
+        const historico = await buscarHistoricoUsuario(idUsuario);
         
         return res.status(200).json(historico);
     } catch (error) {
