@@ -1,10 +1,10 @@
-import { salvarHistorico, buscarHistorico } from '../models/chatModel';
+import { salvarHistorico, buscarHistorico } from '../models/chatModel.js';
 import axios from 'axios';
 import 'dotenv/config';
 
-export const processarNovaMensagem = async (idUsuario, texto) => { //? função para processar uma nova mensagem enviada pelo usuario
+export const processarNovaMensagem = async (idUsuario, mensagem) => { //? função para processar uma nova mensagem enviada pelo usuario
 
-    await salvarHistorico(idUsuario, texto, "usuario")
+    await salvarHistorico(idUsuario, mensagem, "usuario")
     const n8nUrl = process.env.N8N_WEBHOOK_URL; //? acessa a webhook do n8n salva no .env
     let textoRespostaIA = ""
 
@@ -13,9 +13,11 @@ export const processarNovaMensagem = async (idUsuario, texto) => { //? função 
                 pergunta: mensagem,
                 usuarioId: idUsuario
             });
-
-            if (respostaN8N.data && respostaN8N.data.resposta) {
-                textoRespostaIA = respostaN8N.data.resposta; //? a variavel textoRespostaIA guarda os dados que ira retornar do n8n que vai vim pela variavel resposta
+            console.log(respostaN8N.data);
+            console.log(respostaN8N.data.output);
+            if (respostaN8N.data && respostaN8N.data.output) {
+                textoRespostaIA = respostaN8N.data.output; //? a variavel textoRespostaIA guarda os dados que ira retornar do n8n que vai vim pela variavel resposta
+                
             } else {
                 textoRespostaIA = "A IA processou, mas não retornou texto.";
             }
