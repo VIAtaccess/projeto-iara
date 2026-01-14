@@ -56,4 +56,18 @@
   height: 80px;
   width: 200px;
    
+}.btnEntrar:disabled {
+  opacity: 7;
+  color: #ffffff;
+  cursor: not-allowed;
+}
+.indexContainer {
+  opacity: 4;
+  transform: translateY(0);
+  transition: opacity 0.9s ease, transform 2s ease;
+}
+
+.indexContainer.fade-out {
+  opacity: 0;
+  transform: translateY(-10px);
 }

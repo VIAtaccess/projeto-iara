@@ -24,6 +24,7 @@ body{
   padding: 0;
   height: 100%;
   overflow: hidden;
+  
 
  
 }
@@ -42,6 +43,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  
 }
 
 h1 {
