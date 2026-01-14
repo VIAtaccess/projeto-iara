@@ -62,8 +62,9 @@ const loginUsuarioService = async (dadosLogin) => {
         if(!comparaSenha){
             throw new Error("email ou senha invalidos")
         }
-        //? JWT
+
         const JWT_SECRET = process.env.JWT_SECRET //? meu secret
+
         const token = jwt.sign({ id: usuarioEncontrado.id, email: usuarioEncontrado.email }, JWT_SECRET, {expiresIn: "1h"})
         
         return {

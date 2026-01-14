@@ -39,3 +39,4 @@ export const buscarHistorico = async (idUsuario) => {
     }
 }
 
+export {salvarHistorico, buscarHistorico}
