@@ -103,7 +103,7 @@
   
 }    
    
-/* ESTADO INICIAL (antes de aparecer) */
+
 .loginContainer {
   opacity: 0;
   transform: translateY(10px);
@@ -114,4 +114,27 @@
 .loginContainer.fade-in {
   opacity: 1;
   transform: translateY(0);
+}
+
+.linkCadastro {
+  margin-top: 10px;
+  text-align: center;
+  color: white;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.9em;
+  
+  /* O segredo para subir o texto junto com o botão */
+  position: relative;
+  bottom: 19em; 
+}
+
+/* Estilo para o texto "Crie agora" (o span) */
+.spanCadastro {
+  cursor: pointer;
+  font-weight: bold;
+  color: aqua;
+}
+
+.spanCadastro:hover {
+  text-decoration: underline; /* Um charminho extra quando passar o mouse */
 }

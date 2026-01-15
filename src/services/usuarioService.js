@@ -50,8 +50,11 @@ const cadastrarUsuarioService = async (dadosUsuario) => {
 //!LOGIN
 
 const loginUsuarioService = async (dadosLogin) => {
-   
+
+        
         const usuarioEncontrado = await buscarUsuarioPorEmail(dadosLogin.email)
+
+  
         
         if(!usuarioEncontrado){
             throw new Error("email ou senha invalida")
@@ -59,13 +62,14 @@ const loginUsuarioService = async (dadosLogin) => {
 
         const comparaSenha = await bcrypt.compare(dadosLogin.senha, usuarioEncontrado.senha)
 
+        
         if(!comparaSenha){
             throw new Error("email ou senha invalidos")
         }
 
         const JWT_SECRET = process.env.JWT_SECRET //? meu secret
 
-        const token = jwt.sign({ id: usuarioEncontrado.id, email: usuarioEncontrado.email }, JWT_SECRET, {expiresIn: "1h"})
+        const token = jwt.sign({ id: usuarioEncontrado.id, email: usuarioEncontrado.email }, JWT_SECRET, {expiresIn: "12h"})
         
         return {
         mensagem: "Login realizado com sucesso",

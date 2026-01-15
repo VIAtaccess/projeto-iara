@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Quicksand:wght@300..700&display=swap');
+
+
+.cadastroContainer {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  background-color: #420583;
+  z-index: 999; 
+  overflow: hidden; 
+  
+  
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+
+.titulosCadastro {
+    text-align: center;
+    margin-bottom: 20px;
+    z-index: 10; 
+}
+
+.titleCrie {
+  font-family: "Quicksand", sans-serif;
+  font-size: 3em;
+  color: aqua;
+  margin: 0;
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+.titleSuaConta {
+  font-family: "Quicksand", sans-serif;
+  font-size: 2.2em;
+  color: aqua;
+  margin: 0;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.titleiaraCadastro {
+  font-family: "Quicksand", sans-serif;
+  color: aqua;
+  font-size: 2.2em;
+  margin: 0;
+  font-weight: 800;
+}
+
+#aIARACadastro {
+  font-weight: 300;
+  font-style: normal;
+  margin-right: 8px;
+}
+
+
+.logoiaraCadastro {
+  height: 35vh;
+  width: auto;
+  min-height: 200px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0px 0px 15px rgba(0,0,0,0.3));
+  z-index: 5;
+}
+
+
+.formCadastro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 400px;
+  z-index: 10;
+}
+
+
+.inputCadastro {
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  
+  border: none;
+  border-radius: 35px;
+  font-size: 1rem;
+  font-family: 'Quicksand', sans-serif;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  outline: none;
+  box-sizing: border-box;
+
+  /* CORREÇÃO PARA TEMA ESCURO DO LINUX/BROWSER */
+  background-color: white !important; 
+  color: black !important;
+  color-scheme: light; /* Obriga o navegador a usar tema claro aqui */
+}
+
+.inputCadastro::placeholder {
+    color: #888; /* Cor do placeholder cinza claro */
+}
+
+/* BOTÃO CADASTRAR */
+.btnCadastro {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #e25300; /* Laranja */
+  border-radius: 35px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  font-family: 'Quicksand', sans-serif;
+  color: black;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btnCadastro:hover {
+  background-color: #ff6a00;
+  transform: scale(1.02);
+}
+
+/* --- LINK DE LOGIN --- */
+.linkLogin {
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.linkLogin b {
+    color: aqua;
+    font-weight: 700;
+}
+
+/* --- RODAPÉ ANJOS DIGITAIS --- */
+.anjosDigitaisCadastro {
+  position: absolute;
+  bottom: 20px;
+  height: 50px; 
+  width: auto;
+  opacity: 0.9;
+}
