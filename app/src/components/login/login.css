@@ -1,140 +1,137 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Quicksand:wght@300..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300&family=Poiret+One&family=Quicksand:wght@300..700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Fira+Code:wght@300&family=Poiret+One&family=Quicksand:wght@300..700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 
-
-/* aqui comeca o css f */
-.inputLogin,.inputPassword {
-  min-height: 1vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #000000;
-  background-color: #ffffff ;
-  width: 95%;
-  height: 1em;
-  margin: 10px;
-  margin-top: 10px;
-  bottom: 360px;
-  border: none;
-  border-radius: 35px;
-  
-  padding: 20px;
-  font-size: 17px;
-  font-family: 'Quicksand', sans-serif;
-  box-shadow: 2px 2px 2px #302e2e;
-}
-.btnLogin{
-  min-height: 1vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #e25300;
-  border-radius: 35px;
-  margin-left: 2.5%;
-  bottom: 21em;
-  width: 95%;
-  height: 47px;
-  font-size: 17px;
-  text-align: center;
-  font-family: 'Quicksand', sans-serif;
-}
-.btnLogin:hover{
-  background-color: #c74d07;
-}
-
-.logoiara{
-  top: -195px;
-  position: relative;
-  height: 690px;
-  width: 410px;
-   margin-left: 0%;
-}
-.titleolaLogin{
-  font-size: 3em;
-  display: -ms-inline-grid;
-  position: relative;
-  color: aqua;
-  padding: 0%;
-  font-family: "Quicksand", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-.titlebemvindoLogin{
-  display: -ms-inline-grid;
-  font-size: 2.5em;
-  top: -10px;
-  position: relative;
-  color: aqua;
-  padding: 0%;
-  font-family: "Quicksand", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-.titleiaraLogin{
-  display: -ms-inline-grid;
-  position: relative;
-  top: -10px;
-  color: aqua;
-  padding: 0%;
-  top: 10;
-  font-family: sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-#aIARA{
-  color: aqua;
-  font-family: "Quicksand", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-  
-}
-
-.anjosDigitais{
-  position: relative;
-  bottom: 295px;
-  right: 0%;
-  height: 80px;
-  width: 200px;
-  
-}    
-   
 
 .loginContainer {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #420583;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; 
+  padding: 15px 0;
+  overflow: hidden;
 }
 
-/* QUANDO A TELA ENTRA */
-.loginContainer.fade-in {
-  opacity: 1;
-  transform: translateY(0);
+
+.titulosLogin {
+  text-align: center;
+  margin-top: 10px;
+  flex-shrink: 0;
+  z-index: 10;
+  margin-bottom: -110px;
 }
+
+.titleolaLogin, .titlebemvindoLogin, .titleiaraLogin {
+  font-family: 'Quicksand', sans-serif;
+  color: aqua;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.titleolaLogin { font-size: 2.2rem; font-weight: 300; }
+.titlebemvindoLogin { font-size: 1.8rem; font-weight: 300; }
+.titleiaraLogin { font-size: 1.8rem; font-weight: 700; }
+#aIARA { font-weight: 300; font-style: normal; margin-right: 5px; }
+
+
+.logoiara {
+  height: 60vh; 
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0px 0px 10px rgba(0,0,0,0.3));
+  flex-shrink: 0; 
+  min-height: 300px; 
+  z-index: 5;
+  margin-bottom: -70px;
+}
+
+
+.formLogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -20;
+  width: 85%;
+  max-width: 350px;
+  z-index: 10;
+}
+
+
+.inputLogin, .inputPassword {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 30px;
+  border: none;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1rem;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  outline: none;
+  
+ 
+  background-color: white !important;
+  color: black !important;
+  color-scheme: light; 
+}
+
+.btnLogin {
+  width: 100%;
+  padding: 12px;
+  background-color: #e25300;
+  border-radius: 30px;
+  color: #380075;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  font-family: 'Quicksand', sans-serif;
+  margin-top: 5px;
+  transition: transform 0.2s;
+}
+
+.btnLogin:hover {
+  background-color: #ff7b00;
+  transform: scale(1.02);
+}
+
 
 .linkCadastro {
   margin-top: 10px;
-  text-align: center;
   color: white;
+  margin-top: 25px;
   font-family: 'Quicksand', sans-serif;
-  font-size: 0.9em;
+  font-size: 0.9rem;
+}
+
+.spanCadastro { color: aqua; font-weight: bold; cursor: pointer; }
+
+
+.anjosDigitais {
+  height: 40px;
+  width: auto;
+  margin-top: -40px;
+  margin-bottom: 15px;
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+
+.loginContainer { opacity: 0; transition: opacity 0.8s; }
+.loginContainer.fade-in { opacity: 1; }
+
+@media (max-height: 700px) {
+ 
+  .titleolaLogin { font-size: 1.8rem; }
+  .titlebemvindoLogin { font-size: 1.5rem; }
+  .titleiaraLogin { font-size: 1.5rem; }
   
-  /* O segredo para subir o texto junto com o botão */
-  position: relative;
-  bottom: 19em; 
-}
-
-/* Estilo para o texto "Crie agora" (o span) */
-.spanCadastro {
-  cursor: pointer;
-  font-weight: bold;
-  color: aqua;
-}
-
-.spanCadastro:hover {
-  text-decoration: underline; /* Um charminho extra quando passar o mouse */
+  .logoiara {
+     height: 35vh; 
+     min-height: 200px;
+  }
 }

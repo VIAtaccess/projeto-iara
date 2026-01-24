@@ -1,1 +1,48 @@
+services:
+  backend:
+    build: .
+    container_name: iara-backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - N8N_WEBHOOK_URL=http://host.docker.internal:5678/webhook/chat
+      - OLLAMA_HOST=http://ollama:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - ollama
+    networks:
+      - iara-network
 
+  
+  frontend:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    container_name: iara-frontend
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - iara-network
+
+  
+  ollama:
+    image: ollama/ollama:latest
+    container_name: iara-ollama
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - iara-network
+
+volumes:
+  ollama_data:
+
+networks:
+  iara-network:
+    driver: bridge

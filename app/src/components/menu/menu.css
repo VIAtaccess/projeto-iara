@@ -16,6 +16,7 @@
 
 
 .metadeSuperior {
+    flex: 1;
     height: 50%; 
     width: 100%;
     display: flex;
@@ -28,7 +29,7 @@
 .saudacaoContainer {
     text-align: center;
     z-index: 10;
-    margin-bottom: -60px;
+    margin-bottom: -100px;
     animation: fadeIn 1s ease-out;
 }
 
@@ -55,8 +56,9 @@
 .logoIaraMenu {
     height: 60vh; 
     width: auto;
-    margin-top: -80px;
     margin-bottom: -200px;
+    margin-top: -45px;
+    object-fit: contain;
     filter: drop-shadow(0px 0px 10px rgba(0,0,0,0.3));
 }
 

@@ -61,7 +61,7 @@ function Menu() {
           <CardOpcao 
             titulo="Sala de Aula"
             icone={<i className="fa-solid fa-book card-icone"></i>}
-            onClick={() => console.log("Ir para Sala de Aula")}
+            onClick={() => navigate("/sala-de-aula")}
           />
 
           <CardOpcao 

@@ -1,8 +1,13 @@
+#docker do meu backend Node.js
 
 FROM node:22-alpine
 
+USER root
+
+RUN apk update && apk add curl
 
 ENV NODE_ENV=production
+
 
 WORKDIR /app
 

@@ -6,6 +6,9 @@ export const processarNovaMensagem = async (idUsuario, mensagem) => { //? fun√ß√
 
     await salvarHistorico(idUsuario, mensagem, "usuario")
     const n8nUrl = process.env.N8N_WEBHOOK_URL; //? acessa a webhook do n8n salva no .env
+
+    console.log("Tentando conectar em:", n8nUrl);
+    
     let textoRespostaIA = ""
 
     try {

@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Login from './components/login/login';
+import SalaDeAula from './components/saladeaula/saladeaula';
 import Telainicio from './components/telainicio/telainicio';
 import Menu from './components/menu/menu';
 import Chat from './components/chatmessage/chat';
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<Telainicio />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/sala-de-aula" element={<SalaDeAula />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/chat" element={<Chat />} />
       </Routes>
