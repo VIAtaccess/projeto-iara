@@ -1,5 +1,5 @@
 // Aqui está o código corrigido para o arquivo src/config/firebase.js
-// Usando ES Modules (import/export) e exportando o 'db' corretamente.
+// Usando ES Modules (import/export) e exportando o 'db' e o 'admin' corretamente.
 
 import admin from 'firebase-admin';
 import { createRequire } from 'module';
@@ -35,6 +35,9 @@ if (serviceAccount && !admin.apps.length) {
 
 // 4. Cria a conexão direta com o Firestore (que o seu código está pedindo como 'db')
 export const db = admin.firestore();
+
+// 5. Exporta o admin também de forma nomeada (para resolver o erro do chatModel.js)
+export { admin };
 
 // Exporta o admin como padrão caso algum outro arquivo precise
 export default admin;
