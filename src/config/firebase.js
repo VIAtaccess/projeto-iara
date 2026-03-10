@@ -1,9 +1,10 @@
-// Aqui está o novo código para o arquivo src/config/firebase.js
-// Ele é inteligente: vai procurar a chave no Railway primeiro.
-// Se não achar, tenta procurar o arquivo no seu computador.
+// Aqui está o código corrigido para o arquivo src/config/firebase.js
+// Usando ES Modules (import/export) e exportando o 'db' corretamente.
 
-const admin = require('firebase-admin');
+import admin from 'firebase-admin';
+import { createRequire } from 'module';
 
+const require = createRequire(import.meta.url);
 let serviceAccount;
 
 // 1. Tenta ler a chave secreta de dentro do Railway (Variável de Ambiente)
@@ -32,5 +33,8 @@ if (serviceAccount && !admin.apps.length) {
     });
 }
 
-// Exporta para o resto do projeto poder usar
-module.exports = admin;
+// 4. Cria a conexão direta com o Firestore (que o seu código está pedindo como 'db')
+export const db = admin.firestore();
+
+// Exporta o admin como padrão caso algum outro arquivo precise
+export default admin;
