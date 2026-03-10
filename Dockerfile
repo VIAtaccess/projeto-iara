@@ -12,8 +12,8 @@ USER node
 
 COPY --chown=node:node package*.json ./
 
-# 1. Instala TODAS as dependências primeiro (incluindo o Vite para poder construir as telas)
-RUN npm install
+# 1. FORÇA a instalação de TODAS as dependências (mesmo as ferramentas de construção como o Vite)
+RUN npm install --include=dev
 
 COPY --chown=node:node . .
 
