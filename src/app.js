@@ -36,7 +36,7 @@ app.use(express.static(pastaTelas1));
 app.use(express.static(pastaTelas2));
 
 // 3. Quando alguém acessar qualquer link (como a porta da frente ou /login), entregamos a tela
-app.get('*', (req, res) => {
+app.get(/.*/, (req, res) => {
     res.sendFile(path.join(pastaTelas1, 'index.html'), (erro1) => {
         if (erro1) {
             res.sendFile(path.join(pastaTelas2, 'index.html'), (erro2) => {
