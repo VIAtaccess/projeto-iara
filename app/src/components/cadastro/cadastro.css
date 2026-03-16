@@ -10,24 +10,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between; 
+  /* MÁGICA 1: Usamos space-evenly para distribuir o espaço sem esmagar nada */
+  justify-content: space-evenly; 
   padding: 10px 0;
   
   background-color: #420583;
   z-index: 999; 
-  overflow: hidden; 
+  /* MÁGICA 2: Trocamos 'hidden' por 'auto'. Se a tela for pequena ou o teclado do telemóvel abrir, podemos rolar a página! */
+  overflow-y: auto; 
   opacity: 0;
   animation: fadeIn 0.8s ease-out forwards;
 }
 
 @keyframes fadeIn { to { opacity: 1; } }
 
-
 .titulosCadastro {
     text-align: center;
-    margin-top: 2px;
     flex-shrink: 0;
-    margin-bottom: -100px ;
+    /* Removemos os margins negativos que quebravam o ecrã */
 }
 
 .titleCrie { font-family: "Quicksand", sans-serif; font-size: 2.5em; color: aqua; margin: 0; font-weight: 300; line-height: 1.1; }
@@ -35,15 +35,14 @@
 .titleiaraCadastro { font-family: "Quicksand", sans-serif; color: aqua; font-size: 2em; margin: 0; font-weight: 800; }
 #aIARACadastro { font-weight: 300; font-style: normal; margin-right: 8px; }
 
-
 .logoiaraCadastro {
-  height: 65vh; 
+  /* MÁGICA 3: Reduzimos a imagem para um tamanho razoável que não "coma" o formulário */
+  height: 25vh; 
+  max-height: 220px;
   width: auto;
   filter: drop-shadow(0px 0px 15px rgba(0,0,0,0.3));
   flex-shrink: 0;
-  min-height: 250px;
 }
-
 
 .formCadastro {
   display: flex;
@@ -51,13 +50,15 @@
   align-items: center;
   width: 85%;
   max-width: 350px;
-  margin-top: -100px;
+  /* Adicionamos z-index para garantir que os campos ficam sempre por cima da imagem */
+  position: relative;
+  z-index: 10;
 }
 
 .inputCadastro {
   width: 100%;
   padding: 12px;
-  margin: 5px 0;
+  margin: 6px 0; /* Um respiro melhor entre os campos */
   border: none;
   border-radius: 35px;
   font-size: 1rem;
@@ -72,7 +73,7 @@
 .btnCadastro {
   width: 100%;
   padding: 12px;
-  margin-top: 10px;
+  margin-top: 15px;
   background-color: #e25300;
   border-radius: 35px;
   font-size: 1.1rem;
@@ -82,7 +83,6 @@
   border: none;
   cursor: pointer;
 }
-
 
 .linkLogin {
     margin-top: 20px;
@@ -94,11 +94,10 @@
 }
 .linkLogin b { color: aqua; font-weight: 700; }
 
-
 .anjosDigitaisCadastro {
   height: 40px; 
   width: auto;
   opacity: 0.9;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   flex-shrink: 0;
 }
