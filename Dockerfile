@@ -10,7 +10,6 @@ WORKDIR /app
 # Copia os arquivos de dependência primeiro (isso deixa o Railway muito mais rápido)
 COPY package*.json ./
 
-
 # Instala TODAS as dependências como administrador (sem limites de permissão)
 RUN npm install
 
