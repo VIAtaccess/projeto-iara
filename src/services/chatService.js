@@ -6,7 +6,9 @@ export const processarNovaMensagem = async (idUsuario, mensagem) => {
     // Salva a mensagem que o usuário digitou
     await salvarHistorico(idUsuario, mensagem, "usuario");
     
-    let n8nUrl = process.env.N8N_WEBHOOK_URL || ""; 
+    // 🎯 LINK GARANTIDO: Agora o motor sempre vai saber para onde ligar!
+    // Ele tenta ler do Railway primeiro, mas se falhar, usa o seu link direto.
+    let n8nUrl = process.env.N8N_WEBHOOK_URL || "https://viataccess.app.n8n.cloud/webhook/chat"; 
 
     // 🛡️ ESCUDO ANTI-REDIRECIONAMENTO: 
     // Corrige automaticamente problemas comuns na URL que transformam o POST num GET
