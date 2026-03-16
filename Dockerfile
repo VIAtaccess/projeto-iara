@@ -1,34 +1,45 @@
 FROM node:22-alpine
 
-# Trabalhamos como 'root' (administrador) durante a construção para ter permissões totais
+# Trabalhamos como administrador durante a construção
 USER root
-
 RUN apk update && apk add curl
 
 WORKDIR /app
 
-# Copia os arquivos de dependência primeiro (isso deixa o Railway muito mais rápido)
-COPY package*.json ./
-
-# Instala TODAS as dependências como administrador (sem limites de permissão)
-RUN npm install
-
-# Copia o resto do código da sua máquina para o servidor
+# Copia todos os arquivos e pastas da sua máquina para o servidor
 COPY . .
 
-# 👉 A INSTRUÇÃO MÁGICA: Constrói as telas do React (agora com poder para criar a pasta 'dist')
-RUN npm run build
+# 1. Instala as dependências da pasta principal (do Motor Backend)
+RUN npm install
 
-# Garante que o usuário 'node' seja o dono de tudo o que acabamos de gerar
+# 2. 👉 AUTO-BUILDER MÁGICO: Procura a subpasta do React, entra nela e constrói as telas!
+RUN sh -c '\
+    for f in $(find . -name "package.json" -not -path "*/node_modules/*"); do \
+        if grep -q "\"vite\"" "$f"; then \
+            FRONT_DIR=$(dirname "$f"); \
+            echo "=> 🎨 Tela React encontrada na pasta: $FRONT_DIR"; \
+            cd "$FRONT_DIR"; \
+            npm install --include=dev; \
+            npm run build; \
+            if [ "$FRONT_DIR" != "." ]; then \
+                echo "=> 🚚 Movendo as telas prontas para a raiz do servidor..."; \
+                cp -R dist /app/ || true; \
+            fi; \
+            cd /app; \
+        fi; \
+    done \
+'
+
+# Garante que o usuário 'node' seja dono de tudo
 RUN chown -R node:node /app
 
-# Só agora, com tudo pronto, mudamos para o usuário seguro
+# Volta para o usuário seguro
 USER node
 
-# Avisamos que estamos em produção para o motor rodar mais rápido
+# Avisamos que estamos em produção
 ENV NODE_ENV=production
 
 EXPOSE 3000
 
-# Comando extra: mostra a lista de pastas nos logs (para vermos a 'dist' nascendo) antes de ligar o servidor!
-CMD ["sh", "-c", "ls -la && node src/server.js"]
+# Liga o servidor!
+CMD ["node", "src/server.js"]
