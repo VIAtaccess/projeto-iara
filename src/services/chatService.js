@@ -6,13 +6,25 @@ export const processarNovaMensagem = async (idUsuario, mensagem) => {
     // Salva a mensagem que o usuário digitou
     await salvarHistorico(idUsuario, mensagem, "usuario");
     
-    const n8nUrl = process.env.N8N_WEBHOOK_URL; 
+    let n8nUrl = process.env.N8N_WEBHOOK_URL || ""; 
+
+    // 🛡️ ESCUDO ANTI-REDIRECIONAMENTO: 
+    // Corrige automaticamente problemas comuns na URL que transformam o POST num GET
+    if (n8nUrl.startsWith('http://') && !n8nUrl.includes('localhost')) {
+        n8nUrl = n8nUrl.replace('http://', 'https://');
+        console.log("URL corrigida automaticamente para HTTPS");
+    }
+    if (n8nUrl.endsWith('/')) {
+        n8nUrl = n8nUrl.slice(0, -1);
+        console.log("Barra final removida da URL");
+    }
 
     console.log("Tentando conectar em:", n8nUrl);
     
     let textoRespostaIA = "";
 
     try {
+        // Aqui garantimos o envio como POST na URL já limpa e corrigida
         const respostaN8N = await axios.post(n8nUrl, {
                 pergunta: mensagem,
                 usuarioId: idUsuario
