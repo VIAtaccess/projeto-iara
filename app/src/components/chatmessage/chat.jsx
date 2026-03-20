@@ -13,13 +13,15 @@ import ReactMarkdown from 'react-markdown';
 const apiMock = {
   get: async (url) => {
     console.log(`Simulando busca em: ${url}`);
+    // Retorna um array vazio para simular histórico limpo na prévia
     return { data: [] }; 
   },
   post: async (url, data) => {
     console.log(`Simulando envio para ${url}:`, data);
+    // Simulação de resposta da IAra para teste na prévia
     return { 
       data: { 
-        resposta: "Ah, que pergunta boa! Abrir um MEI é como ter um barquinho só seu pra navegar nos negócios, mas com a segurança de um porto. 🛶✨" 
+        resposta: "Ah, que pergunta boa! Abrir um MEI é como ter um barquinho só seu pra navegar nos negócios, mas com a segurança de um porto. Como posso te ajudar hoje? 🛶✨" 
       } 
     };
   }
@@ -32,8 +34,7 @@ const IconeEnviar = () => (
   </svg>
 );
 
-// Criamos um componente interno para conter a lógica, pois o useNavigate 
-// precisa estar dentro do <HashRouter>
+// Componente de conteúdo do Chat
 function ChatContent() {
   const navigate = useNavigate();
   const [mensagens, setMensagens] = useState([]);
@@ -52,9 +53,10 @@ function ChatContent() {
         }));
         setMensagens(mensagensFormatadas);
       } catch (error) {
+        console.error("Erro ao buscar histórico:", error);
         if (error.response?.status === 401) {
           setMensagens([{ 
-            texto: "⚠️ Sua sessão expirou. Por favor, clique em 'Voltar' e entre novamente! ✨", 
+            texto: "⚠️ Sua sessão expirou. Por favor, volte ao menu e entre novamente! ✨", 
             tipo: "recebida" 
           }]);
         }
@@ -75,9 +77,10 @@ function ChatContent() {
       const respostaIA = response.data.resposta;
       setMensagens((prev) => [...prev, { texto: respostaIA, tipo: "recebida" }]);
     } catch (error) {
-      let msgErro = "Erro de conexão. A IAra está dormindo 😴";
+      console.error("Erro ao enviar:", error);
+      let msgErro = "A IAra está descansando um pouco. Tente de novo! 😴";
       if (error.response?.status === 401) {
-        msgErro = "⚠️ Sessão expirada. Por favor, faça login novamente! 🥰";
+        msgErro = "⚠️ Sessão expirada. Faça login novamente! 🥰";
       }
       setMensagens((prev) => [...prev, { texto: msgErro, tipo: "recebida" }]);
     } finally {
@@ -103,7 +106,7 @@ function ChatContent() {
       <div className="w-[95%] max-w-2xl h-[95dvh] sm:h-[90dvh] flex flex-col bg-[#1a0b2e] rounded-[30px] overflow-hidden shadow-2xl border border-purple-500/20">
         
         {/* Header - Identidade IAra */}
-        <div className="p-4 bg-[#1a0b2e] flex items-center justify-between shrink-0">
+        <div className="p-4 bg-[#1a0b2e] flex items-center justify-between shrink-0 z-10">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-cyan-400 overflow-hidden border-2 border-white shadow-lg">
                <img 
@@ -129,7 +132,7 @@ function ChatContent() {
           </button>
         </div>
 
-        {/* Corpo do Chat */}
+        {/* Corpo do Chat - Mensagens */}
         <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-none">
           {mensagens.length === 0 && (
             <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-8 animate-in fade-in duration-700">
@@ -157,7 +160,7 @@ function ChatContent() {
                 ? "bg-[#ef7d00] text-white rounded-tr-none" 
                 : "bg-[#3b2269] text-purple-50 rounded-tl-none border border-purple-400/10"
               }`}>
-                <ReactMarkdown className="prose prose-invert max-w-none text-sm leading-relaxed">
+                <ReactMarkdown className="prose prose-invert max-w-none">
                   {msg.texto}
                 </ReactMarkdown>
               </div>
@@ -175,12 +178,13 @@ function ChatContent() {
           <div ref={fimDoChatRef}></div>
         </div>
 
-        {/* Rodapé - Layout igual à foto */}
+        {/* Rodapé - Correção do campo e contraste */}
         <div className="p-4 bg-[#1a0b2e] pb-12 sm:pb-6">
           <div className="flex items-center gap-3 bg-[#e0e0e0] rounded-full p-1.5 shadow-inner">
             <input
-              className="flex-1 bg-transparent border-none outline-none px-5 py-3 text-base text-[#1a0b2e] placeholder-[#666]"
+              className="flex-1 bg-transparent border-none outline-none px-5 py-3 text-base text-[#1a0b2e] placeholder-[#666] font-medium"
               type="text"
+              style={{ color: '#1a0b2e' }}
               placeholder={carregando ? "Aguarde..." : "Digite sua dúvida..."}
               value={texto}
               onChange={(e) => setTexto(e.target.value)}
@@ -190,7 +194,7 @@ function ChatContent() {
             <button 
               className={`w-12 h-12 rounded-full transition-all flex items-center justify-center ${
                 texto.trim() && !carregando 
-                ? "bg-[#00ffff] hover:scale-105 shadow-lg" 
+                ? "bg-[#00ffff] hover:scale-105 shadow-lg shadow-cyan-500/20" 
                 : "bg-gray-400 opacity-30 cursor-not-allowed"
               }`}
               onClick={enviarMensagem} 
@@ -206,7 +210,7 @@ function ChatContent() {
   );
 }
 
-// O componente App (export padrão) precisa envolver o conteúdo em um Router
+// Exportação padrão com HashRouter para funcionar no ambiente de prévia
 export default function App() {
   return (
     <HashRouter>
