@@ -1,18 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
 
-// Simulação do serviço de API para evitar erros de importação externa
+/**
+ * NOTA PARA O PROJETO REAL: 
+ * No seu computador/GitHub, você deve usar:
+ * import api from "../../services/api";
+ * import "./chat.css";
+ */
 const api = {
   get: async (url) => {
-    // Simulação de busca de histórico
-    console.log(`Buscando: ${url}`);
+    console.log(`Buscando histórico real em: ${url}`);
     return { data: [] }; 
   },
   post: async (url, data) => {
-    // Simulação de envio
-    console.log(`Enviando para ${url}:`, data);
-    return { data: { resposta: "Olá! Como posso ajudar você hoje?" } };
+    console.log(`Enviando mensagem para ${url}:`, data);
+    return { 
+      data: { 
+        resposta: "Ah, que pergunta boa! Agora com esse fundo branquinho e letras roxas, fica muito mais fácil de ler as minhas dicas, não é mesmo? 🛶✨" 
+      } 
+    };
   }
 };
 
@@ -29,24 +35,20 @@ export default function App() {
   const [carregando, setCarregando] = useState(false);
   const fimDoChatRef = useRef(null);
 
-  // Lógica para carregar histórico
   useEffect(() => {
     async function carregarHistorico() {
       try {
         const response = await api.get("/iara/chat/historico");
         const listaBackend = response.data;
-
         const mensagensFormatadas = listaBackend.map((msg) => ({
           texto: msg.texto,
           tipo: msg.quemEnviou === "usuario" ? "enviada" : "recebida"
         }));
-
         setMensagens(mensagensFormatadas);
       } catch (error) {
-        console.error("Erro ao carregar histórico:", error);
         if (error.response?.status === 401) {
           setMensagens([{ 
-            texto: "⚠️ Sua sessão expirou por segurança. Por favor, saia e entre novamente para ver seu histórico! ✨", 
+            texto: "⚠️ Sua sessão expirou. Por favor, clique em 'Voltar' e entre novamente! ✨", 
             tipo: "recebida" 
           }]);
         }
@@ -57,32 +59,21 @@ export default function App() {
 
   async function enviarMensagem() {
     if (texto.trim() === "" || carregando) return;
-
     const mensagemUsuario = texto;
     setTexto("");
     setCarregando(true);
-
     setMensagens((prev) => [...prev, { texto: mensagemUsuario, tipo: "enviada" }]);
 
     try {
       const response = await api.post("/iara/chat/enviar", { mensagem: mensagemUsuario });
       const respostaIA = response.data.resposta;
-
       setMensagens((prev) => [...prev, { texto: respostaIA, tipo: "recebida" }]);
-    
     } catch (error) {
-      console.error("Erro ao enviar mensagem:", error);
-      
       let msgErro = "Erro de conexão. A IAra está dormindo 😴";
-      
       if (error.response?.status === 401) {
-        msgErro = "⚠️ Sua sessão expirou por segurança. Por favor, volte ao menu e faça login novamente para continuarmos! 🥰";
+        msgErro = "⚠️ Sessão expirada. Por favor, faça login novamente! 🥰";
       }
-
-      setMensagens((prev) => [
-        ...prev, 
-        { texto: msgErro, tipo: "recebida" }
-      ]);
+      setMensagens((prev) => [...prev, { texto: msgErro, tipo: "recebida" }]);
     } finally {
       setCarregando(false);
     }
@@ -100,51 +91,46 @@ export default function App() {
   }, [mensagens]);
 
   return (
-    <div className="min-h-[100dvh] bg-slate-50 flex items-center justify-center p-0 sm:p-4 font-sans text-slate-900 overflow-hidden">
+    <div className="min-h-[100dvh] bg-slate-100 flex items-center justify-center p-0 sm:p-4 font-sans overflow-hidden">
       
-      {/* Container Principal Branco */}
-      <div className="w-full max-w-2xl h-[100dvh] sm:h-[90dvh] flex flex-col bg-white sm:rounded-3xl overflow-hidden shadow-xl border-none sm:border sm:border-slate-200">
+      {/* Janela Principal do Chat - FUNDO BRANCO */}
+      <div className="w-[95%] max-w-2xl h-[95dvh] sm:h-[90dvh] flex flex-col bg-white sm:rounded-[30px] overflow-hidden shadow-2xl border border-slate-200">
         
-        {/* Header Claro */}
+        {/* Header - Roxo com Branco */}
         <div className="p-4 bg-white border-b border-slate-100 flex items-center justify-between shrink-0 shadow-sm z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cyan-100 overflow-hidden border-2 border-cyan-400 shadow-sm">
-               <img src="/img/iara.png" alt="Avatar IAra" className="w-full h-full object-cover" />
+            <div className="w-12 h-12 rounded-full bg-cyan-400 overflow-hidden border-2 border-[#2d1b4e] shadow-lg">
+               <img src="/img/iara.png" alt="IAra" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h2 className="text-base sm:text-lg font-bold text-slate-800">IAra</h2>
+              <h2 className="text-xl font-bold text-[#2d1b4e]">IAra</h2>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                <span className="text-[10px] sm:text-xs text-slate-500 font-medium">Online e Aprendendo</span>
+                <span className="text-xs text-slate-500 font-medium">● Online e Aprendendo</span>
               </div>
             </div>
           </div>
           <button 
-            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition-all text-xs sm:text-sm font-medium shadow-md"
+            className="px-6 py-2 bg-[#2d1b4e] hover:bg-[#3b2269] text-white rounded-full transition-all text-sm font-bold shadow-md"
             onClick={() => window.history.back()}
           >
-            ← Sair
+            Voltar
           </button>
         </div>
 
-        {/* Chat Body */}
+        {/* Área das Mensagens - Fundo Branco, Letras Roxas */}
         <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-white scrollbar-thin scrollbar-thumb-slate-200">
-          
-          {/* Tela de Boas-vindas organizada para Fundo Claro */}
           {mensagens.length === 0 && (
-            <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-8 animate-in fade-in zoom-in duration-500">
-               <div className="relative">
-                  <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-cyan-400 overflow-hidden border-4 border-white shadow-2xl">
-                     <img src="/img/iara.png" alt="IAra" className="w-full h-full object-cover" />
-                  </div>
+            <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-8 animate-in fade-in duration-700">
+               <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-cyan-400 overflow-hidden border-4 border-[#2d1b4e] shadow-2xl">
+                  <img src="/img/iara.png" alt="IAra" className="w-full h-full object-cover" />
                </div>
-               
                <div className="space-y-3">
-                  <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-800 leading-tight">
+                  <h1 className="text-2xl sm:text-4xl font-extrabold text-[#2d1b4e] leading-tight">
                     Olá, <span className="text-cyan-600">Tarciana</span>!
                   </h1>
-                  <p className="text-slate-500 text-sm sm:text-lg max-w-xs mx-auto leading-relaxed">
-                    Sou a <span className="font-bold text-slate-700">IAra</span>. Como posso te ajudar com seu negócio hoje? 🛶
+                  <p className="text-slate-600 text-sm sm:text-lg max-w-xs mx-auto leading-relaxed">
+                    Sou a <span className="font-bold text-[#2d1b4e]">IAra</span>. Como posso te ajudar hoje? 🛶
                   </p>
                </div>
             </div>
@@ -155,12 +141,12 @@ export default function App() {
               key={index} 
               className={`flex ${msg.tipo === "enviada" ? "justify-end" : "justify-start"}`}
             >
-              <div className={`max-w-[85%] p-4 rounded-2xl shadow-sm transition-all duration-300 ${
+              <div className={`max-w-[85%] p-5 rounded-[25px] shadow-sm text-sm leading-relaxed transition-all duration-300 ${
                 msg.tipo === "enviada" 
-                ? "bg-orange-500 text-white rounded-tr-none shadow-orange-200" 
-                : "bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200"
+                ? "bg-[#ef7d00] text-white rounded-tr-none shadow-orange-100" 
+                : "bg-purple-50 text-[#2d1b4e] rounded-tl-none border border-purple-100"
               }`}>
-                <ReactMarkdown className="prose prose-slate max-w-none text-sm leading-relaxed">
+                <ReactMarkdown className={`prose max-w-none text-sm leading-relaxed ${msg.tipo === "recebida" ? "prose-slate" : "prose-invert"}`}>
                   {msg.texto}
                 </ReactMarkdown>
               </div>
@@ -169,7 +155,7 @@ export default function App() {
 
           {carregando && (
             <div className="flex justify-start">
-              <div className="bg-slate-50 border border-slate-100 p-3 rounded-2xl rounded-tl-none animate-pulse text-[10px] text-slate-400 font-medium">
+              <div className="bg-purple-50 px-4 py-2 rounded-full animate-pulse text-[10px] text-[#2d1b4e] uppercase tracking-widest font-bold border border-purple-100">
                 IAra está digitando...
               </div>
             </div>
@@ -178,11 +164,11 @@ export default function App() {
           <div ref={fimDoChatRef}></div>
         </div>
 
-        {/* Footer / Input Claro */}
-        <div className="p-4 bg-slate-50 border-t border-slate-100 pb-10 sm:pb-6">
-          <div className="relative flex items-center gap-2 bg-white rounded-2xl p-1.5 border border-slate-200 focus-within:border-cyan-500 focus-within:ring-2 focus-within:ring-cyan-100 transition-all shadow-sm">
+        {/* Rodapé - Campo Cinza Claro e Botão Roxo/Ciano */}
+        <div className="p-4 bg-slate-50 border-t border-slate-100 pb-12 sm:pb-6">
+          <div className="flex items-center gap-3 bg-white rounded-full p-1.5 shadow-sm border border-slate-200 focus-within:border-[#2d1b4e] transition-all">
             <input
-              className="flex-1 bg-transparent border-none outline-none p-3 text-sm text-slate-800 placeholder-slate-400"
+              className="flex-1 bg-transparent border-none outline-none px-5 py-3 text-base text-[#2d1b4e] placeholder-slate-400 font-medium"
               type="text"
               placeholder={carregando ? "Aguarde..." : "Digite sua dúvida..."}
               value={texto}
@@ -191,9 +177,9 @@ export default function App() {
               disabled={carregando}
             />
             <button 
-              className={`p-3 rounded-xl transition-all flex items-center justify-center ${
+              className={`w-12 h-12 rounded-full transition-all flex items-center justify-center shadow-lg ${
                 texto.trim() && !carregando 
-                ? "bg-cyan-500 hover:bg-cyan-600 shadow-md shadow-cyan-200" 
+                ? "bg-[#2d1b4e] hover:bg-cyan-500 shadow-purple-200" 
                 : "bg-slate-200 opacity-50 cursor-not-allowed"
               }`}
               onClick={enviarMensagem} 
