@@ -12,8 +12,6 @@ const api = {
   post: async (url, data) => {
     // Simulação de envio
     console.log(`Enviando para ${url}:`, data);
-    // Para testar o erro 401, você pode descomentar a linha abaixo:
-    // throw { response: { status: 401 } };
     return { data: { resposta: "Olá! Como posso ajudar você hoje?" } };
   }
 };
@@ -102,37 +100,43 @@ export default function App() {
   }, [mensagens]);
 
   return (
-    <div className="min-h-[100dvh] bg-[#2d1b4e] flex items-center justify-center p-4 font-sans text-white">
-      <div className="w-full max-w-2xl h-[90dvh] flex flex-col bg-[#1a0b2e] rounded-3xl overflow-hidden shadow-2xl border border-purple-500/30">
+    /* Ajuste Principal: Usando min-h-[100dvh] para evitar que o layout 
+       seja cortado pela barra de endereços do celular (iOS/Android).
+    */
+    <div className="min-h-[100dvh] bg-[#2d1b4e] flex items-center justify-center p-0 sm:p-4 font-sans text-white overflow-hidden">
+      
+      {/* O container do chat agora ocupa a altura dinâmica máxima disponível.
+      */}
+      <div className="w-full max-w-2xl h-[100dvh] sm:h-[90dvh] flex flex-col bg-[#1a0b2e] sm:rounded-3xl overflow-hidden shadow-2xl border-none sm:border sm:border-purple-500/30">
         
-        {/* Header */}
-        <div className="p-4 bg-[#251442] border-b border-purple-500/20 flex items-center justify-between">
+        {/* Header - Mantendo fixo no topo */}
+        <div className="p-4 bg-[#251442] border-b border-purple-500/20 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-purple-400 overflow-hidden border-2 border-purple-300">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-400 overflow-hidden border-2 border-purple-300">
                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=IAra" alt="Avatar IAra" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h2 className="text-lg font-bold">IAra</h2>
+              <h2 className="text-base sm:text-lg font-bold">IAra</h2>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                <span className="text-xs text-purple-200">Online e Aprendendo</span>
+                <span className="text-[10px] sm:text-xs text-purple-200">Online e Aprendendo</span>
               </div>
             </div>
           </div>
           <button 
-            className="px-4 py-2 bg-purple-700 hover:bg-purple-600 rounded-xl transition-all text-sm font-medium"
+            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-purple-700 hover:bg-purple-600 rounded-xl transition-all text-xs sm:text-sm font-medium"
             onClick={() => window.history.back()}
           >
             Voltar
           </button>
         </div>
 
-        {/* Chat Body */}
+        {/* Chat Body - Área de rolagem */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-purple-500">
           {mensagens.length === 0 && (
             <div className="h-full flex flex-col items-center justify-center opacity-50 text-center space-y-2">
-               <p className="text-xl">🛶</p>
-               <p>Nenhuma mensagem ainda.<br/>Comece dando um "Oi" para a IAra!</p>
+               <p className="text-2xl">🛶</p>
+               <p className="text-sm">Nenhuma mensagem ainda.<br/>Dê um "Oi" para a IAra!</p>
             </div>
           )}
 
@@ -155,7 +159,7 @@ export default function App() {
 
           {carregando && (
             <div className="flex justify-start">
-              <div className="bg-[#361e5a] p-3 rounded-2xl rounded-tl-none animate-pulse text-xs text-purple-200">
+              <div className="bg-[#361e5a] p-3 rounded-2xl rounded-tl-none animate-pulse text-[10px] text-purple-200">
                 IAra está digitando...
               </div>
             </div>
@@ -164,13 +168,15 @@ export default function App() {
           <div ref={fimDoChatRef}></div>
         </div>
 
-        {/* Footer / Input */}
-        <div className="p-4 bg-[#251442] border-t border-purple-500/20 pb-8 sm:pb-4">
-          <div className="relative flex items-center gap-2 bg-[#1a0b2e] rounded-2xl p-1 border border-purple-500/30 focus-within:border-purple-400 transition-all">
+        {/* Footer / Input - Reforçado com padding extra embaixo (pb-10) 
+            para garantir que os botões não fiquem escondidos pela barra do celular.
+        */}
+        <div className="p-4 bg-[#251442] border-t border-purple-500/20 pb-10 sm:pb-6">
+          <div className="relative flex items-center gap-2 bg-[#1a0b2e] rounded-2xl p-1.5 border border-purple-500/30 focus-within:border-purple-400 transition-all shadow-inner">
             <input
               className="flex-1 bg-transparent border-none outline-none p-3 text-sm placeholder-purple-300/50"
               type="text"
-              placeholder={carregando ? "Aguarde a IAra responder..." : "Digite sua dúvida..."}
+              placeholder={carregando ? "Aguarde..." : "Digite sua dúvida..."}
               value={texto}
               onChange={(e) => setTexto(e.target.value)}
               onKeyDown={handleKeyPress}
