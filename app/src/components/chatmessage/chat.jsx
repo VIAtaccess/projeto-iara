@@ -18,7 +18,7 @@ const apiMock = {
     console.log(`Simulando envio para ${url}:`, data);
     return { 
       data: { 
-        resposta: "Oi! Já ajustei tudo. Agora o fundo está branquinho, as letras estão roxas e bem legíveis, e o botão de voltar apareceu de novo no topo! Como posso te ajudar? 🛶✨" 
+        resposta: "Oi! Já ajustei tudo. Agora a minha imagem original está de volta, o fundo está branquinho e as letras estão roxas e bem legíveis. Como posso te ajudar hoje? 🛶✨" 
       } 
     };
   }
@@ -102,7 +102,13 @@ export default function App() {
         <div className="p-4 bg-[#1a0b2e] flex items-center justify-between shrink-0 shadow-md z-20">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cyan-400 overflow-hidden border-2 border-white shadow-sm">
-               <img src="https://api.dicebear.com/7.x/bottts/svg?seed=IAra" alt="IAra" className="w-full h-full object-cover" />
+               {/* 🛶 IAra Original Restaurada */}
+               <img 
+                 src="/img/iara.png" 
+                 alt="IAra" 
+                 className="w-full h-full object-cover" 
+                 onError={(e) => { e.target.src = "https://via.placeholder.com/150?text=IAra"; }}
+               />
             </div>
             <div>
               <h2 className="text-lg font-bold text-white leading-tight">IAra</h2>
@@ -125,7 +131,8 @@ export default function App() {
           {mensagens.length === 0 && (
             <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-8 animate-in fade-in duration-700">
                <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-cyan-400 overflow-hidden border-4 border-[#2d1b4e] shadow-xl">
-                  <img src="https://api.dicebear.com/7.x/bottts/svg?seed=IAra" alt="IAra" className="w-full h-full object-cover" />
+                  {/* 🛶 IAra Original Restaurada aqui também */}
+                  <img src="/img/iara.png" alt="IAra" className="w-full h-full object-cover" />
                </div>
                <div className="space-y-3">
                   <h1 className="text-2xl sm:text-4xl font-extrabold text-[#2d1b4e] leading-tight">
