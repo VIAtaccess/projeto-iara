@@ -2,21 +2,23 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from 'react-markdown';
 
 /**
- * NOTA PARA O PROJETO REAL: 
- * No seu computador/GitHub, você deve usar:
+ * ⚠️ NOTA PARA O SEU PROJETO REAL:
+ * No seu computador/GitHub, você deve restaurar os imports:
  * import api from "../../services/api";
  * import "./chat.css";
  */
-const api = {
+
+// Simulação da API para que o Preview funcione sem erros
+const apiMock = {
   get: async (url) => {
-    console.log(`Buscando histórico real em: ${url}`);
+    console.log(`Simulando busca em: ${url}`);
     return { data: [] }; 
   },
   post: async (url, data) => {
-    console.log(`Enviando mensagem para ${url}:`, data);
+    console.log(`Simulando envio para ${url}:`, data);
     return { 
       data: { 
-        resposta: "Oi! Agora ajustei o campo para ficar bem clarinho e o texto bem escuro. Assim você consegue ler tudo o que digita sem esforço! Como posso te ajudar agora? 🛶✨" 
+        resposta: "Oi! Já ajustei tudo. Agora o fundo está branquinho, as letras estão roxas e bem legíveis, e o botão de voltar apareceu de novo no topo! Como posso te ajudar? 🛶✨" 
       } 
     };
   }
@@ -38,7 +40,7 @@ export default function App() {
   useEffect(() => {
     async function carregarHistorico() {
       try {
-        const response = await api.get("/iara/chat/historico");
+        const response = await apiMock.get("/iara/chat/historico");
         const listaBackend = response.data;
         const mensagensFormatadas = listaBackend.map((msg) => ({
           texto: msg.texto,
@@ -48,7 +50,7 @@ export default function App() {
       } catch (error) {
         if (error.response?.status === 401) {
           setMensagens([{ 
-            texto: "⚠️ Sua sessão expirou. Por favor, clique em 'Voltar' e entre novamente! ✨", 
+            texto: "⚠️ Sua sessão expirou. Por favor, volte ao menu e entre novamente! ✨", 
             tipo: "recebida" 
           }]);
         }
@@ -65,7 +67,7 @@ export default function App() {
     setMensagens((prev) => [...prev, { texto: mensagemUsuario, tipo: "enviada" }]);
 
     try {
-      const response = await api.post("/iara/chat/enviar", { mensagem: mensagemUsuario });
+      const response = await apiMock.post("/iara/chat/enviar", { mensagem: mensagemUsuario });
       const respostaIA = response.data.resposta;
       setMensagens((prev) => [...prev, { texto: respostaIA, tipo: "recebida" }]);
     } catch (error) {
@@ -94,27 +96,27 @@ export default function App() {
     <div className="min-h-[100dvh] bg-slate-100 flex items-center justify-center p-0 sm:p-4 font-sans overflow-hidden">
       
       {/* Janela Principal do Chat - FUNDO BRANCO */}
-      <div className="w-[95%] max-w-2xl h-[95dvh] sm:h-[90dvh] flex flex-col bg-white sm:rounded-[30px] overflow-hidden shadow-2xl border border-slate-200">
+      <div className="w-full max-w-2xl h-[100dvh] sm:h-[90dvh] flex flex-col bg-white sm:rounded-[30px] overflow-hidden shadow-2xl border-none sm:border sm:border-slate-200">
         
-        {/* Header - Roxo com Branco */}
-        <div className="p-4 bg-white border-b border-slate-100 flex items-center justify-between shrink-0 shadow-sm z-10">
+        {/* Header Escuro (Roxo) para dar destaque ao botão Voltar e Avatar */}
+        <div className="p-4 bg-[#1a0b2e] flex items-center justify-between shrink-0 shadow-md z-20">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-cyan-400 overflow-hidden border-2 border-[#2d1b4e] shadow-lg">
-               <img src="/img/iara.png" alt="IAra" className="w-full h-full object-cover" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cyan-400 overflow-hidden border-2 border-white shadow-sm">
+               <img src="https://api.dicebear.com/7.x/bottts/svg?seed=IAra" alt="IAra" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-[#2d1b4e]">IAra</h2>
+              <h2 className="text-lg font-bold text-white leading-tight">IAra</h2>
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                <span className="text-xs text-slate-500 font-medium">● Online e Aprendendo</span>
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                <span className="text-[10px] sm:text-xs text-cyan-300 font-medium">Online e Aprendendo</span>
               </div>
             </div>
           </div>
           <button 
-            className="px-6 py-2 bg-[#2d1b4e] hover:bg-[#3b2269] text-white rounded-full transition-all text-sm font-bold shadow-md"
+            className="px-4 py-1.5 bg-transparent border-2 border-white/30 hover:bg-white/10 text-white rounded-full text-xs sm:text-sm font-bold transition-all"
             onClick={() => window.history.back()}
           >
-            Voltar
+            ← Voltar
           </button>
         </div>
 
@@ -122,8 +124,8 @@ export default function App() {
         <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-white scrollbar-thin scrollbar-thumb-slate-200">
           {mensagens.length === 0 && (
             <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-8 animate-in fade-in duration-700">
-               <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-cyan-400 overflow-hidden border-4 border-[#2d1b4e] shadow-2xl">
-                  <img src="/img/iara.png" alt="IAra" className="w-full h-full object-cover" />
+               <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-cyan-400 overflow-hidden border-4 border-[#2d1b4e] shadow-xl">
+                  <img src="https://api.dicebear.com/7.x/bottts/svg?seed=IAra" alt="IAra" className="w-full h-full object-cover" />
                </div>
                <div className="space-y-3">
                   <h1 className="text-2xl sm:text-4xl font-extrabold text-[#2d1b4e] leading-tight">
@@ -141,7 +143,7 @@ export default function App() {
               key={index} 
               className={`flex ${msg.tipo === "enviada" ? "justify-end" : "justify-start"}`}
             >
-              <div className={`max-w-[85%] p-5 rounded-[25px] shadow-sm text-sm leading-relaxed transition-all duration-300 ${
+              <div className={`max-w-[85%] p-5 rounded-[22px] shadow-sm text-sm leading-relaxed transition-all duration-300 ${
                 msg.tipo === "enviada" 
                 ? "bg-[#ef7d00] text-white rounded-tr-none shadow-orange-100" 
                 : "bg-purple-50 text-[#2d1b4e] rounded-tl-none border border-purple-100"
@@ -164,7 +166,7 @@ export default function App() {
           <div ref={fimDoChatRef}></div>
         </div>
 
-        {/* Rodapé - Ajustado para melhor visibilidade e contraste */}
+        {/* Rodapé Ajustado - Campo com Letras Escuras e Botão Visível */}
         <div className="p-4 bg-white border-t border-slate-100 pb-12 sm:pb-6">
           <div className="w-full flex items-center gap-3 bg-slate-50 rounded-2xl p-2 border border-slate-200 focus-within:border-[#2d1b4e] focus-within:ring-1 focus-within:ring-purple-100 transition-all shadow-inner">
             <input
@@ -175,16 +177,16 @@ export default function App() {
               onChange={(e) => setTexto(e.target.value)}
               onKeyDown={handleKeyPress}
               disabled={carregando}
+              autoComplete="off"
             />
             <button 
               className={`w-12 h-12 rounded-xl transition-all flex items-center justify-center shadow-md ${
                 texto.trim() && !carregando 
-                ? "bg-[#2d1b4e] hover:bg-[#3b2269] text-white active:scale-95" 
-                : "bg-slate-300 cursor-not-allowed text-slate-100"
+                ? "bg-[#2d1b4e] hover:bg-[#3b2269] text-white active:scale-95 shadow-purple-200" 
+                : "bg-slate-300 text-slate-100 cursor-not-allowed"
               }`}
               onClick={enviarMensagem} 
               disabled={carregando || !texto.trim()}
-              title="Enviar mensagem"
             >
               <IconeEnviar />
             </button>
