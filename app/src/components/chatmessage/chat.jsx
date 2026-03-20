@@ -16,7 +16,7 @@ const api = {
     console.log(`Enviando mensagem para ${url}:`, data);
     return { 
       data: { 
-        resposta: "Ah, que pergunta boa! Agora com esse fundo branquinho e letras roxas, fica muito mais fácil de ler as minhas dicas, não é mesmo? 🛶✨" 
+        resposta: "Oi! Agora ajustei o campo para ficar bem clarinho e o texto bem escuro. Assim você consegue ler tudo o que digita sem esforço! Como posso te ajudar agora? 🛶✨" 
       } 
     };
   }
@@ -164,26 +164,27 @@ export default function App() {
           <div ref={fimDoChatRef}></div>
         </div>
 
-        {/* Rodapé - Campo Cinza Claro e Botão Roxo/Ciano */}
-        <div className="p-4 bg-slate-50 border-t border-slate-100 pb-12 sm:pb-6">
-          <div className="flex items-center gap-3 bg-white rounded-full p-1.5 shadow-sm border border-slate-200 focus-within:border-[#2d1b4e] transition-all">
+        {/* Rodapé - Ajustado para melhor visibilidade e contraste */}
+        <div className="p-4 bg-white border-t border-slate-100 pb-12 sm:pb-6">
+          <div className="w-full flex items-center gap-3 bg-slate-50 rounded-2xl p-2 border border-slate-200 focus-within:border-[#2d1b4e] focus-within:ring-1 focus-within:ring-purple-100 transition-all shadow-inner">
             <input
-              className="flex-1 bg-transparent border-none outline-none px-5 py-3 text-base text-[#2d1b4e] placeholder-slate-400 font-medium"
+              className="flex-1 bg-transparent border-none outline-none px-4 py-3 text-base text-slate-900 placeholder-slate-400 font-medium"
               type="text"
-              placeholder={carregando ? "Aguarde..." : "Digite sua dúvida..."}
+              placeholder={carregando ? "IAra está pensando..." : "Digite sua dúvida aqui..."}
               value={texto}
               onChange={(e) => setTexto(e.target.value)}
               onKeyDown={handleKeyPress}
               disabled={carregando}
             />
             <button 
-              className={`w-12 h-12 rounded-full transition-all flex items-center justify-center shadow-lg ${
+              className={`w-12 h-12 rounded-xl transition-all flex items-center justify-center shadow-md ${
                 texto.trim() && !carregando 
-                ? "bg-[#2d1b4e] hover:bg-cyan-500 shadow-purple-200" 
-                : "bg-slate-200 opacity-50 cursor-not-allowed"
+                ? "bg-[#2d1b4e] hover:bg-[#3b2269] text-white active:scale-95" 
+                : "bg-slate-300 cursor-not-allowed text-slate-100"
               }`}
               onClick={enviarMensagem} 
               disabled={carregando || !texto.trim()}
+              title="Enviar mensagem"
             >
               <IconeEnviar />
             </button>
