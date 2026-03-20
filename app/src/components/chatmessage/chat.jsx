@@ -100,20 +100,15 @@ export default function App() {
   }, [mensagens]);
 
   return (
-    /* Ajuste Principal: Usando min-h-[100dvh] para evitar que o layout 
-       seja cortado pela barra de endereços do celular (iOS/Android).
-    */
     <div className="min-h-[100dvh] bg-[#2d1b4e] flex items-center justify-center p-0 sm:p-4 font-sans text-white overflow-hidden">
       
-      {/* O container do chat agora ocupa a altura dinâmica máxima disponível.
-      */}
       <div className="w-full max-w-2xl h-[100dvh] sm:h-[90dvh] flex flex-col bg-[#1a0b2e] sm:rounded-3xl overflow-hidden shadow-2xl border-none sm:border sm:border-purple-500/30">
         
-        {/* Header - Mantendo fixo no topo */}
+        {/* Header */}
         <div className="p-4 bg-[#251442] border-b border-purple-500/20 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-400 overflow-hidden border-2 border-purple-300">
-               <img src="https://api.dicebear.com/7.x/bottts/svg?seed=IAra" alt="Avatar IAra" className="w-full h-full object-cover" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-400 overflow-hidden border-2 border-purple-300 shadow-lg shadow-purple-500/20">
+               <img src="/img/iara.png" alt="Avatar IAra" className="w-full h-full object-cover" />
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-bold">IAra</h2>
@@ -124,19 +119,34 @@ export default function App() {
             </div>
           </div>
           <button 
-            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-purple-700 hover:bg-purple-600 rounded-xl transition-all text-xs sm:text-sm font-medium"
+            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-purple-700 hover:bg-purple-600 rounded-xl transition-all text-xs sm:text-sm font-medium border border-purple-400/30"
             onClick={() => window.history.back()}
           >
-            Voltar
+            ← Sair
           </button>
         </div>
 
-        {/* Chat Body - Área de rolagem */}
+        {/* Chat Body */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-purple-500">
+          
+          {/* 🌟 CORREÇÃO DE SOBREPOSIÇÃO: Tela de Boas-vindas organizada */}
           {mensagens.length === 0 && (
-            <div className="h-full flex flex-col items-center justify-center opacity-50 text-center space-y-2">
-               <p className="text-2xl">🛶</p>
-               <p className="text-sm">Nenhuma mensagem ainda.<br/>Dê um "Oi" para a IAra!</p>
+            <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-8 animate-in fade-in zoom-in duration-500">
+               <div className="relative">
+                  {/* Círculo do Avatar com borda destacada */}
+                  <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-cyan-400 overflow-hidden border-4 border-white shadow-2xl shadow-cyan-500/30">
+                     <img src="/img/iara.png" alt="IAra" className="w-full h-full object-cover" />
+                  </div>
+               </div>
+               
+               <div className="space-y-3">
+                  <h1 className="text-2xl sm:text-4xl font-bold text-white leading-tight">
+                    Olá, <span className="text-cyan-400">Tarciana</span>!
+                  </h1>
+                  <p className="text-purple-200 text-sm sm:text-lg max-w-xs mx-auto leading-relaxed">
+                    Sou a <span className="font-bold text-white">IAra</span>. Como posso te ajudar com seu negócio hoje? 🛶
+                  </p>
+               </div>
             </div>
           )}
 
@@ -168,9 +178,7 @@ export default function App() {
           <div ref={fimDoChatRef}></div>
         </div>
 
-        {/* Footer / Input - Reforçado com padding extra embaixo (pb-10) 
-            para garantir que os botões não fiquem escondidos pela barra do celular.
-        */}
+        {/* Footer / Input */}
         <div className="p-4 bg-[#251442] border-t border-purple-500/20 pb-10 sm:pb-6">
           <div className="relative flex items-center gap-2 bg-[#1a0b2e] rounded-2xl p-1.5 border border-purple-500/30 focus-within:border-purple-400 transition-all shadow-inner">
             <input
