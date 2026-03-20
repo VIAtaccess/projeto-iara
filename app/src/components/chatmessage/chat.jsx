@@ -100,26 +100,27 @@ export default function App() {
   }, [mensagens]);
 
   return (
-    <div className="min-h-[100dvh] bg-[#2d1b4e] flex items-center justify-center p-0 sm:p-4 font-sans text-white overflow-hidden">
+    <div className="min-h-[100dvh] bg-slate-50 flex items-center justify-center p-0 sm:p-4 font-sans text-slate-900 overflow-hidden">
       
-      <div className="w-full max-w-2xl h-[100dvh] sm:h-[90dvh] flex flex-col bg-[#1a0b2e] sm:rounded-3xl overflow-hidden shadow-2xl border-none sm:border sm:border-purple-500/30">
+      {/* Container Principal Branco */}
+      <div className="w-full max-w-2xl h-[100dvh] sm:h-[90dvh] flex flex-col bg-white sm:rounded-3xl overflow-hidden shadow-xl border-none sm:border sm:border-slate-200">
         
-        {/* Header */}
-        <div className="p-4 bg-[#251442] border-b border-purple-500/20 flex items-center justify-between shrink-0">
+        {/* Header Claro */}
+        <div className="p-4 bg-white border-b border-slate-100 flex items-center justify-between shrink-0 shadow-sm z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-400 overflow-hidden border-2 border-purple-300 shadow-lg shadow-purple-500/20">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cyan-100 overflow-hidden border-2 border-cyan-400 shadow-sm">
                <img src="/img/iara.png" alt="Avatar IAra" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h2 className="text-base sm:text-lg font-bold">IAra</h2>
+              <h2 className="text-base sm:text-lg font-bold text-slate-800">IAra</h2>
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                <span className="text-[10px] sm:text-xs text-purple-200">Online e Aprendendo</span>
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                <span className="text-[10px] sm:text-xs text-slate-500 font-medium">Online e Aprendendo</span>
               </div>
             </div>
           </div>
           <button 
-            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-purple-700 hover:bg-purple-600 rounded-xl transition-all text-xs sm:text-sm font-medium border border-purple-400/30"
+            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition-all text-xs sm:text-sm font-medium shadow-md"
             onClick={() => window.history.back()}
           >
             ← Sair
@@ -127,24 +128,23 @@ export default function App() {
         </div>
 
         {/* Chat Body */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-purple-500">
+        <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-white scrollbar-thin scrollbar-thumb-slate-200">
           
-          {/* 🌟 CORREÇÃO DE SOBREPOSIÇÃO: Tela de Boas-vindas organizada */}
+          {/* Tela de Boas-vindas organizada para Fundo Claro */}
           {mensagens.length === 0 && (
             <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-8 animate-in fade-in zoom-in duration-500">
                <div className="relative">
-                  {/* Círculo do Avatar com borda destacada */}
-                  <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-cyan-400 overflow-hidden border-4 border-white shadow-2xl shadow-cyan-500/30">
+                  <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-cyan-400 overflow-hidden border-4 border-white shadow-2xl">
                      <img src="/img/iara.png" alt="IAra" className="w-full h-full object-cover" />
                   </div>
                </div>
                
                <div className="space-y-3">
-                  <h1 className="text-2xl sm:text-4xl font-bold text-white leading-tight">
-                    Olá, <span className="text-cyan-400">Tarciana</span>!
+                  <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-800 leading-tight">
+                    Olá, <span className="text-cyan-600">Tarciana</span>!
                   </h1>
-                  <p className="text-purple-200 text-sm sm:text-lg max-w-xs mx-auto leading-relaxed">
-                    Sou a <span className="font-bold text-white">IAra</span>. Como posso te ajudar com seu negócio hoje? 🛶
+                  <p className="text-slate-500 text-sm sm:text-lg max-w-xs mx-auto leading-relaxed">
+                    Sou a <span className="font-bold text-slate-700">IAra</span>. Como posso te ajudar com seu negócio hoje? 🛶
                   </p>
                </div>
             </div>
@@ -155,12 +155,12 @@ export default function App() {
               key={index} 
               className={`flex ${msg.tipo === "enviada" ? "justify-end" : "justify-start"}`}
             >
-              <div className={`max-w-[85%] p-4 rounded-2xl shadow-lg transition-all duration-300 ${
+              <div className={`max-w-[85%] p-4 rounded-2xl shadow-sm transition-all duration-300 ${
                 msg.tipo === "enviada" 
-                ? "bg-orange-500 text-white rounded-tr-none" 
-                : "bg-[#361e5a] text-purple-50 rounded-tl-none border border-purple-400/20"
+                ? "bg-orange-500 text-white rounded-tr-none shadow-orange-200" 
+                : "bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200"
               }`}>
-                <ReactMarkdown className="prose prose-invert max-w-none text-sm leading-relaxed">
+                <ReactMarkdown className="prose prose-slate max-w-none text-sm leading-relaxed">
                   {msg.texto}
                 </ReactMarkdown>
               </div>
@@ -169,7 +169,7 @@ export default function App() {
 
           {carregando && (
             <div className="flex justify-start">
-              <div className="bg-[#361e5a] p-3 rounded-2xl rounded-tl-none animate-pulse text-[10px] text-purple-200">
+              <div className="bg-slate-50 border border-slate-100 p-3 rounded-2xl rounded-tl-none animate-pulse text-[10px] text-slate-400 font-medium">
                 IAra está digitando...
               </div>
             </div>
@@ -178,11 +178,11 @@ export default function App() {
           <div ref={fimDoChatRef}></div>
         </div>
 
-        {/* Footer / Input */}
-        <div className="p-4 bg-[#251442] border-t border-purple-500/20 pb-10 sm:pb-6">
-          <div className="relative flex items-center gap-2 bg-[#1a0b2e] rounded-2xl p-1.5 border border-purple-500/30 focus-within:border-purple-400 transition-all shadow-inner">
+        {/* Footer / Input Claro */}
+        <div className="p-4 bg-slate-50 border-t border-slate-100 pb-10 sm:pb-6">
+          <div className="relative flex items-center gap-2 bg-white rounded-2xl p-1.5 border border-slate-200 focus-within:border-cyan-500 focus-within:ring-2 focus-within:ring-cyan-100 transition-all shadow-sm">
             <input
-              className="flex-1 bg-transparent border-none outline-none p-3 text-sm placeholder-purple-300/50"
+              className="flex-1 bg-transparent border-none outline-none p-3 text-sm text-slate-800 placeholder-slate-400"
               type="text"
               placeholder={carregando ? "Aguarde..." : "Digite sua dúvida..."}
               value={texto}
@@ -193,8 +193,8 @@ export default function App() {
             <button 
               className={`p-3 rounded-xl transition-all flex items-center justify-center ${
                 texto.trim() && !carregando 
-                ? "bg-cyan-500 hover:bg-cyan-400 shadow-lg shadow-cyan-500/20" 
-                : "bg-gray-700 opacity-50 cursor-not-allowed"
+                ? "bg-cyan-500 hover:bg-cyan-600 shadow-md shadow-cyan-200" 
+                : "bg-slate-200 opacity-50 cursor-not-allowed"
               }`}
               onClick={enviarMensagem} 
               disabled={carregando || !texto.trim()}
